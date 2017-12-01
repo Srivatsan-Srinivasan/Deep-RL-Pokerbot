@@ -289,7 +289,6 @@ class Simulator:
 
 
         # RL : Store experiences in memory. Just for the agent
-        print('b_round', self.b_round, 'player who played this round', self.player.name, self.player.id)
         self.experiences[self.player.id] = self.make_experience(self.player, self.action, self.new_game, self.board,
                                                        self.pot, self.dealer, self.actions, BLINDS[1],
                                                        self.global_step, self.b_round)

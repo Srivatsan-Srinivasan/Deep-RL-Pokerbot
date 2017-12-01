@@ -114,7 +114,6 @@ class NeuralFictitiousPlayer(Player):
         # so we can do player.model.Q, player.model.pi
         # experience replay
         # debug
-        learn_start = 10
         self.learn_start = learn_start
         self.memory_rl = ReplayBufferManager(target='rl', config=memory_rl_conf, learn_start=learn_start)
         self.memory_sl = ReplayBufferManager(target='sl', config=memory_sl_conf, learn_start=learn_start)
@@ -146,10 +145,10 @@ class NeuralFictitiousPlayer(Player):
 
     def _is_ready_to_learn(self, global_step):
         # with some safety padding for off by one error
+        # debug: hot fix
         record_size = self.memory_rl._buffer.record_size
         batch_size = self.memory_rl._buffer.batch_size
         hot_fix = (record_size + 1) > self.learn_start
-        print(self.name, record_size)
         return global_step > self.learn_start and hot_fix
 
 
