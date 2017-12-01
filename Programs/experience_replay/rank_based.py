@@ -154,8 +154,9 @@ class RankExperienceReplay(object):
         :return: w, list, weights
         :return: rank_e_id, list, samples id, used for update priority
         """
+
         if self.record_size < self.learn_start:
-            print('record_size',self.record_size)
+            print('record_size', self.record_size)
             sys.stderr.write('Record size less than learn start! Sample failed\n')
             return False, False, False
 
@@ -171,6 +172,7 @@ class RankExperienceReplay(object):
         partition_size = math.floor(self.size / self.partition_num)
         partition_max = dist_index * partition_size
         distribution = self.distributions[dist_index]
+        print('')
         rank_list = []
         # sample from k segments
         for n in range(1, self.batch_size + 1):
