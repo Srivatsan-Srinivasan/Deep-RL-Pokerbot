@@ -143,8 +143,10 @@ class NeuralFictitiousPlayer(Player):
 
     def _is_ready_to_learn(self, global_step):
         # with some safety padding for off by one error
-        hot_fix = self.memory_rl._buffer.record_size > self.memory_rl._buffer.batch_size
-        return global_step > (self.learn_start) and hot_fix
+        record_size = self.memory_rl._buffer.record_size
+        batch_size = self.memory_rl._buffer.batch_size
+        hot_fix = (record_size + 1) > self.learn_start
+        return global_step > self.learn_start and hot_fix
 
 
     def _learn_rl(self, global_step):

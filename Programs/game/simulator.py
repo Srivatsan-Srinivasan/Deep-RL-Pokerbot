@@ -208,7 +208,7 @@ class Simulator:
                                                            self.pot, self.dealer, self.actions, BLINDS[1],
                                                            self.global_step, self.b_round)
 
-                #self.player.remember(self.experiences[p.id])
+                self.player.remember(self.experiences[p.id])
             # we learn regardless after each episode
             p.learn(self.global_step, self.games['#episodes'])
 
@@ -265,7 +265,7 @@ class Simulator:
                                                                    self.pot, self.dealer, self.actions, BLINDS[1],
                                                                    self.global_step, self.b_round)
 
-                        #self.player.remember(self.experiences[p.id])
+                        self.player.remember(self.experiences[p.id])
 
 
                 # END THE EPISODE
@@ -299,7 +299,7 @@ class Simulator:
                                                        self.pot, self.dealer, self.actions, BLINDS[1],
                                                        self.global_step, self.b_round)
 
-        #self.player.remember(self.experiences[self.player.id])
+        self.player.remember(self.experiences[self.player.id])
 
         # TRANSITION STATE DEPENDING ON THE ACTION YOU TOOK
         if self.action.type in {'all in', 'bet', 'call'}:  # impossible to bet/call/all in 0
