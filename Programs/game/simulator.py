@@ -200,10 +200,10 @@ class Simulator:
         # store final experience
         # KEEP TRACK OF TRANSITIONS
         for p in self.players:
-            actions = self.actions[self.b_round][p.id]
+            acts = self.actions[self.b_round][p.id]
             # TODO: there's a case when actions is []
-            if len(actions) != 0:
-                last_action = actions[-1]
+            if len(acts) != 0:
+                last_action = acts[-1]
                 self.experiences[p.id] = self.make_experience(p, last_action, self.new_game, self.board,
                                                            self.pot, self.dealer, self.actions, BLINDS[1],
                                                            self.global_step, self.b_round)
@@ -217,17 +217,13 @@ class Simulator:
         self._set_new_game()
 
     def _play_rounds(self):
-        # not a new game anymore
-        self.new_game = False
-
         # EPISODE ACTUALLY STARTS HERE
         for r in range(NUM_ROUNDS):
             # updating global_step only when actions are not null
             self.global_step += 1
-
+            self.b_round = r
             # DIFFERENTIATE THE CASES WHERE PLAYERS ARE ALL-IN FROM THE ONES WHERE NONE OF THEM IS
             if self.all_in < 2:
-                self.b_round = r
                 # DEAL CARDS
                 deal(self.deck, self.players, self.board, self.b_round, verbose=self.verbose)
                 self.agreed = False  # True when the max bet has been called by everybody
@@ -241,7 +237,6 @@ class Simulator:
 
                 while not self.agreed:
                     self._play_round()
-                    print('agreed', self.agreed)
 
 
                 self._update_side_pot()
@@ -257,10 +252,10 @@ class Simulator:
 
                 # TODO: grey area not well tested
                 for p in self.players:
-                    actions = self.actions[self.b_round][p.id]
+                    acts = self.actions[self.b_round][p.id]
                     # to handle an edge case where no actions were taken but all-in
-                    if len(actions) != 0:
-                        last_action = actions[-1]
+                    if len(acts) != 0:
+                        last_action = acts[-1]
                         self.experiences[p.id] = self.make_experience(p, last_action, self.new_game, self.board,
                                                                    self.pot, self.dealer, self.actions, BLINDS[1],
                                                                    self.global_step, self.b_round)
@@ -498,7 +493,6 @@ class Simulator:
                         big_blind, global_step, b_round):
         opponent_stack = self.players[1 - player.id].stack
         state_ = build_state(player, board, pot, actions, opponent_stack, big_blind, as_variable=False)
-
         action_ = action_to_array(action)
         reward_ = -action.value - (b_round==0)*((dealer==player.id)*big_blind/2 + (dealer!=player.id)*big_blind)
         step_ = global_step

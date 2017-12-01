@@ -36,6 +36,14 @@ class ReplayBufferManager:
                          'batch_size': config.get('batch_size', 2**5)
                          }
 
+            self.config = {'size': config.get('size', 50),
+                           #this is a game-level parameter
+                         'learn_start': learn_start,
+                         'partition_num': config.get('partition_num', 5),
+                           # when bias decay schedule ends
+                         'total_step': config.get('total_step', 1000),
+                         'batch_size': config.get('batch_size', 4)
+                         }
             self._buffer = RankExperienceReplay(self.config)
         elif self.target == 'sl':
             self.config = {'size': config.get('size', 10**6),
@@ -68,7 +76,9 @@ class ReplayBufferManager:
         # store experience
         # note: timestep is needed to compute importance weights
         # check this paper: https://arxiv.org/pdf/1511.05952.pdf
-        if not self.is_last_step_buffer_empty and not experience['is_new_game']:
+        # TODO: need to check is it's a new game or not
+        #if not self.is_last_step_buffer_empty and not experience['is_new_game']:
+        if not self.is_last_step_buffer_empty:
             # update T_{t-1}
             self._last_step_buffer['next_s'] = experience['s']
             if experience['s'] == 'TERMINAL':

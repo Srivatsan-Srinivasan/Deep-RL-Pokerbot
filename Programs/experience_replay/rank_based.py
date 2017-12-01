@@ -155,23 +155,19 @@ class RankExperienceReplay(object):
         :return: rank_e_id, list, samples id, used for update priority
         """
 
+        import pdb;pdb.set_trace()
         if self.record_size < self.learn_start:
             print('record_size', self.record_size)
             sys.stderr.write('Record size less than learn start! Sample failed\n')
             return False, False, False
-
-        try:
-            dist_index = math.floor(self.record_size / self.size * self.partition_num)
-        except:
-            print(self.record_size)
-            print(self.learn_start)
-            print(self.partition_num)
-            print(self.size)
-            import pdb;pdb.set_trace()
-        # issue 1 by @camigord
+        dist_index = math.floor(self.record_size / self.size * self.partition_num)
         partition_size = math.floor(self.size / self.partition_num)
         partition_max = dist_index * partition_size
-        distribution = self.distributions[dist_index]
+        try:
+            distribution = self.distributions[dist_index]
+        except:
+            distribution = self.distributions[dist_index + 1]
+            import pdb;pdb.set_trace()
         print('')
         rank_list = []
         # sample from k segments
