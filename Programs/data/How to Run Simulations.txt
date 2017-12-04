@@ -1,0 +1,8 @@
+#ep1 = eta_1 ep2 = eta_2 s1 -> Strategy1 s2 -> Strategy2 -ng ->Number of games -g->Gamma
+
+NFSP vs Mirror(Greedy) : python perf_eval_experiments.py -s1 NFSP -s2 mirror -ng 100000 -ep1 1 -ep2 0.1 -g 1 -bs 512 -ls 512 -bfs 2**20 -np 2**14 -c 
+NFSP vs Mirror : python perf_eval_experiments.py -s1 NFSP -s2 mirror -ng 100000 -ep1 0.2 -ep2 0.1 -g 1 -bs 512 -ls 512 -bfs 2**20 -np 2**14 -c 
+NFSP vs Random : python perf_eval_experiments.py -s1 NFSP -s2 random -ng 100000 -ep1 0.25 -ep2 0.1 -g 1 -bs 512 -ls 512 -bfs 2**20 -np 2**14 -c 
+NFSP vs NFSP   : python perf_eval_experiments.py -s1 NFSP -s2 NFSP-ng 100000 -ep1 0.1 -ep2 0.1 -g 1 -bs 512 -ls 512 -bfs 2**20 -np 2**14 -c 
+NFSP vs DQN   : python perf_eval_experiments.py -s1 NFSP -s2 NFSP-ng 100000 -ep1 0.2 -ep2 1 -g 1 -bs 256 -ls 128 -bfs 131072 -np 2048 -c 
+NFSP vs Policy : python perf_eval_experiments.py -s1 NFSP -s2 NFSP-ng 100000 -ep1 1 -ep2 0 -g 1 -bs 512 -ls 512 -bfs 2**20 -np 2**14 -c
