@@ -405,14 +405,16 @@ def get_raise_from_bucket(bucket, actions, b_round, player, opponent_side_pot, r
         return min_side_pot_to_match_for_raise - opponent_side_pot
 
 
-def sample_action(idx, probabilities):
+def sample_action(idx, probs):
     """
     Sample from categorical distribution
     """
     try:
-        return idx[sample_categorical(probabilities)]
+        probs = np.array(probs).flatten()
+        return idx[np.random.choice(np.arange(len(probs)), p=probs)]
+        #return idx[sample_categorical(probabilities)]
     except:
-        raise ValueError(probabilities)
+        raise ValueError(probs)
 
 
 def get_call_bucket(bet):
